@@ -1,0 +1,25 @@
+cbuffer Camera : register(b0)
+{
+    matrix viewMatrix;
+    matrix projectionMatrix;
+    matrix viewProjectionMatrix;
+
+    matrix inverseViewMatrix;
+    matrix inverseProjectionMatrix;
+    matrix inverseViewProjectionMatrix;
+
+    float4 cameraPos;
+};
+
+cbuffer Object : register(b1)
+{
+    matrix objectToWorld;
+    matrix worldToObject;
+};
+
+float4 OceanObjectToClipSpace(float4 position)
+{
+    matrix m = mul(projectionMatrix, viewMatrix);
+    matrix objectToClip = mul(viewProjectionMatrix, objectToWorld);
+    return mul(objectToClip, position);
+}
